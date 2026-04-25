@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Active Directory Portfolio — Sunil Shrestha</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --accent: #0369a1;
+    --accent2: #0ea5e9;
+    --green: #16a34a;
+    --amber: #d97706;
+    --red: #dc2626;
+    --border: #e2e8f0;
+    --bg: #f8fafc;
+    --muted: #64748b;
+    --surface: #f1f5f9;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #fff;
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  /* PRINT STYLES */
+  @media print {
+    .no-print { display: none !important; }
+    .page-break { page-break-before: always; }
+    body { font-size: 11px; }
+    .cover { min-height: auto; padding: 60px 60px 40px; }
+  }
+
+  /* COVER PAGE */
+  .cover {
+    background: var(--ink);
+    color: #fff;
+    min-height: 100vh;
+    padding: 80px 80px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: rgba(3,105,161,0.15);
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: -80px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: rgba(14,165,233,0.08);
+  }
+  .cover-top { position: relative; z-index: 1; }
+  .cover-badge {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--accent2);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .cover h1 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 52px;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .cover h1 span { color: var(--accent2); }
+  .cover-sub {
+    font-size: 18px;
+    color: #94a3b8;
+    margin-bottom: 40px;
+  }
+  .cover-stats {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+  .cstat { border-left: 3px solid var(--accent2); padding-left: 16px; }
+  .cstat .num { font-size: 32px; font-weight: 700; color: var(--accent2); }
+  .cstat .lbl { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
+
+  .cover-info {
+    position: relative; z-index: 1;
+    border-top: 1px solid #1e3a5f;
+    padding-top: 32px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .info-item .label { font-size: 10px; color: #475569; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .info-item .value { font-size: 14px; font-weight: 600; }
+
+  /* MAIN CONTENT */
+  .content { max-width: 900px; margin: 0 auto; padding: 60px 40px; }
+
+  /* SECTION HEADERS */
+  .section-header {
+    border-left: 4px solid var(--accent);
+    padding: 12px 20px;
+    background: var(--surface);
+    margin: 40px 0 20px;
+    border-radius: 0 6px 6px 0;
+  }
+  .section-header h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .section-header p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  /* LAB OVERVIEW */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .overview-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .overview-card h3 { font-size: 12px; font-weight: 700; color: var(--accent); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+
+  /* NETWORK DIAGRAM */
+  .network-diagram {
+    background: #0d1117;
+    border-radius: 8px;
+    padding: 24px;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 12px;
+    line-height: 2;
+    color: #c9d1d9;
+    margin: 16px 0;
+  }
+  .nd-g { color: #7ee787; }
+  .nd-b { color: #79c0ff; }
+  .nd-o { color: #ffa657; }
+  .nd-m { color: #6e7681; }
+  .nd-p { color: #d2a8ff; }
+
+  /* SCENARIO CARDS */
+  .scenario {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .scenario-header {
+    background: var(--ink);
+    color: #fff;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .sc-num {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 11px;
+    background: rgba(255,255,255,0.1);
+    padding: 4px 10px;
+    border-radius: 4px;
+    color: var(--accent2);
+    flex-shrink: 0;
+  }
+  .sc-title { font-size: 15px; font-weight: 700; flex: 1; }
+  .sc-level {
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .level-easy { background: rgba(22,163,74,0.2); color: #4ade80; }
+  .level-med { background: rgba(217,119,6,0.2); color: #fbbf24; }
+  .level-hard { background: rgba(220,38,38,0.2); color: #f87171; }
+
+  .scenario-body { padding: 20px; }
+
+  /* TICKET */
+  .ticket {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+  }
+  .ticket-id { font-family: 'Source Code Pro', monospace; font-size: 10px; color: var(--accent); margin-bottom: 4px; letter-spacing: 1px; }
+  .ticket-title { font-weight: 700; font-size: 13px; margin-bottom: 6px; }
+  .ticket-body { font-size: 12px; color: var(--muted); font-style: italic; line-height: 1.6; }
+
+  /* STEPS */
+  .steps { margin: 14px 0; }
+  .step-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    align-items: flex-start;
+  }
+  .step-n {
+    width: 22px; height: 22px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700;
+    flex-shrink: 0; margin-top: 1px;
+    font-family: 'Source Code Pro', monospace;
+  }
+  .step-c h4 { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+  .step-c p { font-size: 12px; color: var(--muted); }
+
+  /* CODE */
+  .code {
+    background: #0d1117;
+    color: #c9d1d9;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 11px;
+    line-height: 1.8;
+    padding: 12px 14px;
+    border-radius: 6px;
+    margin: 8px 0;
+    overflow-x: auto;
+    border: 1px solid #21262d;
+  }
+  .cg { color: #7ee787; }
+  .cb { color: #79c0ff; }
+  .co { color: #ffa657; }
+  .cm { color: #6e7681; }
+  .cp { color: #d2a8ff; }
+
+  /* BOXES */
+  .box { font-size: 12px; line-height: 1.6; border-radius: 6px; padding: 10px 14px; margin: 10px 0; }
+  .box.tip { background: #eff6ff; border-left: 3px solid var(--accent); color: #1e40af; }
+  .box.real { background: #1a1a2e; border-left: 3px solid var(--accent2); color: #94a3b8; font-family: 'Source Code Pro', monospace; font-size: 11px; }
+  .box.good { background: #f0fdf4; border-left: 3px solid var(--green); color: #166534; }
+
+  /* EVIDENCE */
+  .evidence {
+    background: var(--surface);
+    border: 1px dashed var(--border);
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-top: 14px;
+  }
+  .evidence h4 { font-size: 11px; font-weight: 700; color: var(--accent); margin-bottom: 8px; font-family: 'Source Code Pro', monospace; text-transform: uppercase; letter-spacing: 1px; }
+  .evidence-list { list-style: none; }
+  .evidence-list li { padding: 2px 0; font-size: 12px; color: var(--muted); }
+  .evidence-list li::before { content: '☐ '; color: var(--accent); font-weight: 700; }
+
+  /* SCREENSHOT PLACEHOLDER */
+  .screenshot-box {
+    border: 2px dashed #cbd5e1;
+    border-radius: 6px;
+    padding: 20px;
+    text-align: center;
+    margin: 8px 0;
+    background: #f8fafc;
+    color: #94a3b8;
+    font-size: 11px;
+  }
+  .screenshot-box .icon { font-size: 24px; margin-bottom: 6px; }
+
+  /* TAGS */
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .tag { font-size: 10px; padding: 2px 8px; border-radius: 4px; font-family: 'Source Code Pro', monospace; }
+  .tag.skill { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+  .tag.tool { background: #faf5ff; color: #7c3aed; border: 1px solid #e9d5ff; }
+
+  /* TABLE */
+  .tbl { width: 100%; border-collapse: collapse; font-size: 12px; margin: 12px 0; }
+  .tbl th { background: var(--ink); color: #fff; padding: 8px 12px; text-align: left; font-size: 11px; font-family: 'Source Code Pro', monospace; }
+  .tbl td { padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .tbl tr:last-child td { border-bottom: none; }
+  .tbl tr:nth-child(even) td { background: var(--surface); }
+
+  /* DIVIDER */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+
+  /* GITHUB README */
+  .readme {
+    background: #0d1117;
+    color: #c9d1d9;
+    border-radius: 10px;
+    padding: 24px 28px;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 12px;
+    line-height: 1.9;
+  }
+  .readme .rh1 { color: #79c0ff; font-size: 18px; font-weight: 700; }
+  .readme .rh2 { color: #79c0ff; font-size: 14px; font-weight: 700; }
+  .readme .rg { color: #7ee787; }
+  .readme .rm { color: #6e7681; }
+  .readme .rb { color: #ffa657; }
+
+  /* RESUME SECTION */
+  .resume-box {
+    border: 2px solid var(--ink);
+    border-radius: 10px;
+    padding: 24px 28px;
+  }
+  .resume-box h3 { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid var(--ink); padding-bottom: 8px; margin-bottom: 16px; }
+
+  /* PRINT BTN */
+  .print-btn {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    background: var(--ink);
+    color: #fff;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    z-index: 100;
+  }
+  .print-btn:hover { background: var(--accent); }
+
+  p.desc { font-size: 12px; color: var(--muted); line-height: 1.7; margin: 8px 0 12px; }
+</style>
+</head>
+<body>
+
+<!-- PRINT BUTTON -->
+<button class="print-btn no-print" onclick="window.print()">🖨️ Save as PDF</button>
+
+<!-- ===== COVER PAGE ===== -->
+<div class="cover">
+  <div class="cover-top">
+    <div class="cover-badge">// Active Directory Home Lab</div>
+    <h1>IT Support<br><span>Portfolio</span></h1>
+    <div class="cover-sub">Real-World Active Directory Administration</div>
+    <div class="cover-stats">
+      <div class="cstat"><div class="num">12</div><div class="lbl">Scenarios</div></div>
+      <div class="cstat"><div class="num">2</div><div class="lbl">Virtual Machines</div></div>
+      <div class="cstat"><div class="num">100%</div><div class="lbl">Hands-On</div></div>
+    </div>
+  </div>
+  <div class="cover-info">
+    <div class="info-item">
+      <div class="label">Candidate</div>
+      <div class="value">Sunil Shrestha</div>
+    </div>
+    <div class="info-item">
+      <div class="label">Target Role</div>
+      <div class="value">IT Support Level 1/2</div>
+    </div>
+    <div class="info-item">
+      <div class="label">Location</div>
+      <div class="value">Hobart, Tasmania</div>
+    </div>
+    <div class="info-item">
+      <div class="label">Domain</div>
+      <div class="value">lab.local</div>
+    </div>
+    <div class="info-item">
+      <div class="label">Environment</div>
+      <div class="value">Windows Server 2025</div>
+    </div>
+    <div class="info-item">
+      <div class="label">Year</div>
+      <div class="value">2025–2026</div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- ===== LAB OVERVIEW ===== -->
+  <div class="section-header">
+    <h2>🏗️ Lab Environment Overview</h2>
+    <p>Infrastructure built from scratch using VirtualBox on Windows</p>
+  </div>
+
+  <div class="overview-grid">
+    <div class="overview-card">
+      <h3>🖥️ Virtual Machines</h3>
+      <table class="tbl">
+        <tr><th>VM</th><th>OS</th><th>IP</th><th>Role</th></tr>
+        <tr><td>DC-01</td><td>Windows Server 2025</td><td>192.168.10.10</td><td>Domain Controller</td></tr>
+        <tr><td>CLIENT-01</td><td>Windows 11 Pro</td><td>192.168.10.20</td><td>Workstation</td></tr>
+      </table>
+    </div>
+    <div class="overview-card">
+      <h3>🌐 Network Configuration</h3>
+      <table class="tbl">
+        <tr><th>Setting</th><th>Value</th></tr>
+        <tr><td>Domain</td><td>lab.local</td></tr>
+        <tr><td>Forest</td><td>lab.local</td></tr>
+        <tr><td>Network</td><td>192.168.10.0/24</td></tr>
+        <tr><td>DNS</td><td>192.168.10.10</td></tr>
+        <tr><td>Virtual Switch</td><td>Internal "adlab"</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="network-diagram">
+<span class="nd-m">// Lab Network Diagram</span><br>
+<br>
+<span class="nd-b">Internet</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;↕  <span class="nd-m">(NAT — Adapter 1)</span><br>
+<span class="nd-g">┌─────────────────────────────────────────────┐</span><br>
+<span class="nd-g">│</span>  <span class="nd-b">DC-01</span> — Windows Server 2025                <span class="nd-g">│</span><br>
+<span class="nd-g">│</span>  IP: <span class="nd-o">192.168.10.10</span>  Role: Domain Controller  <span class="nd-g">│</span><br>
+<span class="nd-g">│</span>  Services: AD DS, DNS, GPO, File Sharing      <span class="nd-g">│</span><br>
+<span class="nd-g">└──────────────────┬──────────────────────────┘</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↕  <span class="nd-m">(Internal Network "adlab" — Adapter 2)</span><br>
+<span class="nd-p">┌─────────────────────────────────────────────┐</span><br>
+<span class="nd-p">│</span>  <span class="nd-b">CLIENT-01</span> — Windows 11 Pro                 <span class="nd-p">│</span><br>
+<span class="nd-p">│</span>  IP: <span class="nd-o">192.168.10.20</span>  Role: Workstation         <span class="nd-p">│</span><br>
+<span class="nd-p">│</span>  Domain joined: lab.local                     <span class="nd-p">│</span><br>
+<span class="nd-p">└─────────────────────────────────────────────┘</span>
+  </div>
+
+  <div class="overview-card" style="margin-bottom: 16px;">
+    <h3>🏢 Company OU Structure</h3>
+    <div class="network-diagram" style="margin: 8px 0 0;">
+<span class="nd-b">lab.local</span><br>
+<span class="nd-p">└── _COMPANY</span><br>
+<span class="nd-p">&nbsp;&nbsp;&nbsp;&nbsp;├── Finance</span>&nbsp;&nbsp;<span class="nd-m">← carol.fin, sarah.johnson | GRP-Finance</span><br>
+<span class="nd-p">&nbsp;&nbsp;&nbsp;&nbsp;├── IT</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="nd-m">← bob.it, jake.support | GRP-IT, GRP-IT-Admins</span><br>
+<span class="nd-p">&nbsp;&nbsp;&nbsp;&nbsp;├── HR</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="nd-m">← alice.hr, emma.hr | GRP-HR</span><br>
+<span class="nd-p">&nbsp;&nbsp;&nbsp;&nbsp;├── Management</span>&nbsp;<span class="nd-m">← david.mgr | GRP-Management</span><br>
+<span class="nd-p">&nbsp;&nbsp;&nbsp;&nbsp;├── Workstations</span>&nbsp;<span class="nd-m">← CLIENT-01</span><br>
+<span class="nd-p">&nbsp;&nbsp;&nbsp;&nbsp;└── _DISABLED</span>&nbsp;&nbsp;<span class="nd-m">← disabled accounts stored here</span>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ===== SCENARIOS ===== -->
+  <div class="section-header">
+    <h2>📋 Portfolio Scenarios — 12 Real-World Helpdesk Tasks</h2>
+    <p>Each scenario is based on a real helpdesk ticket with documented steps and evidence</p>
+  </div>
+
+  <!-- SCENARIO 1 -->
+  <div class="scenario">
+    <div class="scenario-header">
+      <div class="sc-num">SCENARIO 01</div>
+      <div class="sc-title">New Employee Onboarding — Create User Account</div>
+      <div class="sc-level level-easy">Beginner</div>
+    </div>
+    <div class="scenario-body">
+      <div class="ticket">
+        <div class="ticket-id">🎫 TICKET #1001 — HR REQUEST</div>
+        <div class="ticket-title">New starter joining Monday — need AD account created</div>
+        <div class="ticket-body">"New employee Sarah Johnson starting Monday. Department: Finance. Job title: Accounts Payable. Needs access to Finance shared drive. Please create account before 9am Monday." — HR Team</div>
+      </div>
+      <div class="tags">
+        <span class="tag skill">New-ADUser</span>
+        <span class="tag skill">Add-ADGroupMember</span>
+        <span class="tag tool">ADUC</span>
+        <span class="tag tool">PowerShell</span>
+      </div>
+      <div class="steps" style="margin-top: 14px;">
+        <div class="step-row"><div class="step-n">1</div><div class="step-c"><h4>Created Finance OU in ADUC</h4><p>Right clicked lab.local → New → Organizational Unit → Finance</p></div></div>
+        <div class="step-row"><div class="step-n">2</div><div class="step-c"><h4>Created user account via PowerShell</h4>
+        <div class="code">
+<span class="cb">New-ADUser</span> -Name <span class="cg">"Sarah Johnson"</span> -SamAccountName <span class="cg">"sarah.johnson"</span> `<br>
+&nbsp;&nbsp;-Department <span class="cg">"Finance"</span> -Title <span class="cg">"Accounts Payable"</span> `<br>
+&nbsp;&nbsp;-Path <span class="cg">"OU=Finance,OU=_COMPANY,DC=lab,DC=local"</span> `<br>
+&nbsp;&nbsp;-AccountPassword (ConvertTo-SecureString <span class="cg">"Welcome@2025!"</span> -AsPlainText -Force) `<br>
+&nbsp;&nbsp;-ChangePasswordAtLogon <span class="cp">$true</span> -Enabled <span class="cp">$true</span>
+        </div>
+        </div></div>
+        <div class="step-row"><div class="step-n">3</div><div class="step-c"><h4>Added to Finance security group</h4>
+        <div class="code"><span class="cb">Add-ADGroupMember</span> -Identity <span class="cg">"GRP-Finance"</span> -Members <span class="cg">"sarah.johnson"</span></div>
+        </div></div>
+        <div class="step-row"><div class="step-n">4</div><div class="step-c"><h4>Verified login on CLIENT-01</h4><p>Logged into CLIENT-01 as LAB\sarah.johnson — confirmed login and password change prompt.</p></div></div>
+      </div>
+      <div class="box real">💼 Real World: Most companies have HR systems that auto-trigger IT tickets for new starters. Standard onboarding checklist — AD account, email, software access, VPN setup.</div>
+      <div class="evidence">
+        <h4>📸 Portfolio Evidence — Screenshots Taken</h4>
+        <ul class="evidence-list">
+          <li>PowerShell command running successfully — user created</li>
+          <li>User visible in ADUC under Finance OU</li>
+          <li>Group membership showing GRP-Finance</li>
+          <li>Successful login on CLIENT-01 as sarah.johnson</li>
+        </ul>
+      </div>
+      <div class="screenshot-box"><div class="icon">📸</div>[Insert Screenshot — User in ADUC Finance OU]</div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 2 -->
+  <div class="scenario">
+    <div class="scenario-header">
+      <div class="sc-num">SCENARIO 02</div>
+      <div class="sc-title">Account Lockout — User Cannot Log In</div>
+      <div class="sc-level level-easy">Beginner</div>
+    </div>
+    <div class="scenario-body">
+      <div class="ticket">
+        <div class="ticket-id">🎫 TICKET #1002 — URGENT</div>
+        <div class="ticket-title">Can't log in — account locked!</div>
+        <div class="ticket-body">"I can't log into my PC this morning. It says my account is locked. I have an important meeting in 10 minutes." — Bob Smith, IT Department</div>
+      </div>
+      <div class="tags"><span class="tag skill">Unlock-ADAccount</span><span class="tag skill">Search-ADAccount</span><span class="tag tool">PowerShell</span></div>
+      <div class="steps" style="margin-top: 14px;">
+        <div class="step-row"><div class="step-n">1</div><div class="step-c"><h4>Found all locked accounts</h4><div class="code"><span class="cb">Search-ADAccount</span> -LockedOut | <span class="cb">Select-Object</span> Name, SamAccountName</div></div></div>
+        <div class="step-row"><div class="step-n">2</div><div class="step-c"><h4>Checked lockout details</h4><div class="code"><span class="cb">Get-ADUser</span> -Identity <span class="cg">"bob.it"</span> -Properties LockedOut, BadLogonCount, LastBadPasswordAttempt</div></div></div>
+        <div class="step-row"><div class="step-n">3</div><div class="step-c"><h4>Unlocked the account</h4><div class="code"><span class="cb">Unlock-ADAccount</span> -Identity <span class="cg">"bob.it"</span></div></div></div>
+        <div class="step-row"><div class="step-n">4</div><div class="step-c"><h4>Investigated root cause</h4><p>Checked if old password saved on mobile device or VPN client was causing repeated failed attempts.</p></div></div>
+      </div>
+      <div class="box real">💼 Real World: Lockouts often happen because a user changed password but forgot to update it on their phone email app or VPN. Always investigate root cause.</div>
+      <div class="evidence">
+        <h4>📸 Portfolio Evidence — Screenshots Taken</h4>
+        <ul class="evidence-list">
+          <li>Account status showing LockedOut=True</li>
+          <li>Unlock command executed successfully</li>
+          <li>Account confirmed unlocked (LockedOut=False)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 3 -->
+  <div class="scenario">
+    <div class="scenario-header">
+      <div class="sc-num">SCENARIO 03</div>
+      <div class="sc-title">Password Reset — User Forgot Password</div>
+      <div class="sc-level level-easy">Beginner</div>
+    </div>
+    <div class="scenario-body">
+      <div class="ticket">
+        <div class="ticket-id">🎫 TICKET #1003</div>
+        <div class="ticket-title">Forgot password — back from 3 weeks leave</div>
+        <div class="ticket-body">"I've been on leave for 3 weeks and my password expired. Keep getting an error saying it doesn't meet requirements." — Carol, Finance</div>
+      </div>
+      <div class="tags"><span class="tag skill">Set-ADAccountPassword</span><span class="tag skill">Get-ADDefaultDomainPasswordPolicy</span></div>
+      <div class="steps" style="margin-top: 14px;">
+        <div class="step-row"><div class="step-n">1</div><div class="step-c"><h4>Checked account status</h4><div class="code"><span class="cb">Get-ADUser</span> -Identity <span class="cg">"carol.fin"</span> -Properties PasswordExpired, PasswordLastSet, LockedOut</div></div></div>
+        <div class="step-row"><div class="step-n">2</div><div class="step-c"><h4>Reset the password</h4><div class="code"><span class="cb">Set-ADAccountPassword</span> -Identity <span class="cg">"carol.fin"</span> -Reset `<br>&nbsp;&nbsp;-NewPassword (ConvertTo-SecureString <span class="cg">"TempPass@2025!"</span> -AsPlainText -Force)<br><span class="cb">Set-ADUser</span> -Identity <span class="cg">"carol.fin"</span> -ChangePasswordAtLogon <span class="cp">$true</span></div></div></div>
+        <div class="step-row"><div class="step-n">3</div><div class="step-c"><h4>Checked password policy</h4><div class="code"><span class="cb">Get-ADDefaultDomainPasswordPolicy</span></div></div></div>
+        <div class="step-row"><div class="step-n">4</div><div class="step-c"><h4>Communicated temp password to user</h4><p>Told Carol temp password and requirements — min length, uppercase, number, symbol required.</p></div></div>
+      </div>
+      <div class="box real">💼 Real World: Always set ChangePasswordAtLogon=$true after a reset. Never give users a permanent password — security best practice.</div>
+      <div class="evidence">
+        <h4>📸 Portfolio Evidence — Screenshots Taken</h4>
+        <ul class="evidence-list">
+          <li>Account status showing PasswordExpired=True</li>
+          <li>Password reset command executed</li>
+          <li>Password policy settings displayed</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 4 -->
+  <div class="scenario">
+    <div class="scenario-header">
+      <div class="sc-num">SCENARIO 04</div>
+      <div class="sc-title">Employee Offboarding — Staff Member Resigns</div>
+      <div class="sc-level level-easy">Beginner</div>
+    </div>
+    <div class="scenario-body">
+      <div class="ticket">
+        <div class="ticket-id">🎫 TICKET #1004 — HR URGENT</div>
+        <div class="ticket-title">Staff member leaving today — disable all access immediately</div>
+        <div class="ticket-body">"John Davis from HR is leaving at 5pm. Please ensure all access disabled by end of business. Security compliance requirement." — HR Manager</div>
+      </div>
+      <div class="tags"><span class="tag skill">Disable-ADAccount</span><span class="tag skill">Move-ADObject</span><span class="tag skill">Remove-ADGroupMember</span></div>
+      <div class="steps" style="margin-top: 14px;">
+        <div class="step-row"><div class="step-n">1</div><div class="step-c"><h4>Disabled AD account immediately</h4><div class="code"><span class="cb">Disable-ADAccount</span> -Identity <span class="cg">"john.davis"</span></div></div></div>
+        <div class="step-row"><div class="step-n">2</div><div class="step-c"><h4>Moved to _DISABLED OU</h4><div class="code"><span class="cb">Move-ADObject</span> -Identity <span class="cg">"CN=John Davis,OU=HR,OU=_COMPANY,DC=lab,DC=local"</span> `<br>&nbsp;&nbsp;-TargetPath <span class="cg">"OU=_DISABLED,DC=lab,DC=local"</span></div></div></div>
+        <div class="step-row"><div class="step-n">3</div><div class="step-c"><h4>Removed from all security groups</h4><div class="code"><span class="cb">Get-ADPrincipalGroupMembership</span> <span class="cg">"john.davis"</span> | <span class="cb">Where-Object</span> {<span class="cp">$_</span>.Name -ne <span class="cg">"Domain Users"</span>} | <span class="cb">ForEach-Object</span> { <span class="cb">Remove-ADGroupMember</span> -Identity <span class="cp">$_</span> -Members <span class="cg">"john.davis"</span> -Confirm:<span class="cp">$false</span> }</div></div></div>
+        <div class="step-row"><div class="step-n">4</div><div class="step-c"><h4>Added audit trail description</h4><div class="code"><span class="cb">Set-ADUser</span> -Identity <span class="cg">"john.davis"</span> -Description <span class="cg">"DISABLED 11-Apr-2025 — Resigned. Ticket #1004"</span></div></div></div>
+      </div>
+      <div class="box real">💼 Real World: Never delete accounts immediately — keep for 30-90 days for audit/file recovery. Just disable. This is standard offboarding practice in every organisation.</div>
+      <div class="evidence">
+        <h4>📸 Portfolio Evidence — Screenshots Taken</h4>
+        <ul class="evidence-list">
+          <li>Account disabled (Enabled=False)</li>
+          <li>Account moved to _DISABLED OU in ADUC</li>
+          <li>All group memberships removed</li>
+          <li>Audit description added to account</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 5 -->
+  <div class="scenario">
+    <div class="scenario-header">
+      <div class="sc-num">SCENARIO 05</div>
+      <div class="sc-title">Group Policy — Screen Lock After Inactivity</div>
+      <div class="sc-level level-med">Intermediate</div>
+    </div>
+    <div class="scenario-body">
+      <div class="ticket">
+        <div class="ticket-id">🎫 TICKET #1005 — SECURITY TEAM</div>
+        <div class="ticket-title">Compliance requirement — all PCs must lock after 10 mins</div>
+        <div class="ticket-body">"Following security audit, all company PCs must automatically lock after 10 minutes inactivity. ISO 27001 compliance requirement." — Security Manager</div>
+      </div>
+      <div class="tags"><span class="tag skill">Group Policy</span><span class="tag tool">GPMC</span><span class="tag skill">gpupdate</span><span class="tag skill">gpresult</span></div>
+      <div class="steps" style="margin-top: 14px;">
+        <div class="step-row"><div class="step-n">1</div><div class="step-c"><h4>Created GPO in GPMC</h4><p>GPMC → right clicked Workstations OU → Create GPO → named "SECURITY-ScreenLock-Policy"</p></div></div>
+        <div class="step-row"><div class="step-n">2</div><div class="step-c"><h4>Configured screen saver settings</h4><p>User Configuration → Administrative Templates → Control Panel → Personalisation → enabled Screen Saver timeout (600 seconds) + Password protect</p></div></div>
+        <div class="step-row"><div class="step-n">3</div><div class="step-c"><h4>Linked GPO to Workstations OU</h4><p>Right clicked Workstations OU → Link an Existing GPO → selected SECURITY-ScreenLock-Policy</p></div></div>
+        <div class="step-row"><div class="step-n">4</div><div class="step-c"><h4>Tested and verified on CLIENT-01</h4><div class="code">gpupdate /force<br>gpresult /r /scope computer</div></div></div>
+      </div>
+      <div class="evidence">
+        <h4>📸 Portfolio Evidence — Screenshots Taken</h4>
+        <ul class="evidence-list">
+          <li>GPO settings configured in Group Policy Editor</li>
+          <li>GPO linked to Workstations OU in GPMC</li>
+          <li>gpresult showing GPO applied on CLIENT-01</li>
+          <li>HTML GPO report (gpresult /h)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 6 -->
+  <div class="scenario">
+    <div class="scenario-header">
+      <div class="sc-num">SCENARIO 06</div>
+      <div class="sc-title">Map Network Drive via Group Policy</div>
+      <div class="sc-level level-med">Intermediate</div>
+    </div>
+    <div class="scenario-body">
+      <div class="ticket">
+        <div class="ticket-id">🎫 TICKET #1006</div>
+        <div class="ticket-title">New Finance staff can't see the Finance shared drive</div>
+        <div class="ticket-body">"Our 3 new Finance starters can't see the Finance shared drive (F: drive). Can you set it up to automatically appear when they log in?" — Finance Manager</div>
+      </div>
+      <div class="tags"><span class="tag skill">GPO Drive Maps</span><span class="tag skill">New-SmbShare</span><span class="tag tool">GPMC</span></div>
+      <div class="steps" style="margin-top: 14px;">
+        <div class="step-row"><div class="step-n">1</div><div class="step-c"><h4>Created Finance shared folder on DC-01</h4><div class="code"><span class="cb">New-Item</span> -Path <span class="cg">"C:\Shares\Finance"</span> -ItemType Directory<br><span class="cb">New-SmbShare</span> -Name <span class="cg">"Finance$"</span> -Path <span class="cg">"C:\Shares\Finance"</span> -FullAccess <span class="cg">"GRP-Finance"</span></div></div></div>
+        <div class="step-row"><div class="step-n">2</div><div class="step-c"><h4>Created drive map GPO</h4><p>GPMC → new GPO "FINANCE-DriveMaps" → User Configuration → Preferences → Drive Maps → F: → \\DC-01\Finance$</p></div></div>
+        <div class="step-row"><div class="step-n">3</div><div class="step-c"><h4>Set Item Level Targeting</h4><p>Common tab → Item-level Targeting → Security Group = GRP-Finance (Finance users only)</p></div></div>
+        <div class="step-row"><div class="step-n">4</div><div class="step-c"><h4>Tested on CLIENT-01</h4><p>Logged in as sarah.johnson → F: Finance drive appeared automatically in File Explorer ✅</p></div></div>
+      </div>
+      <div class="evidence">
+        <h4>📸 Portfolio Evidence — Screenshots Taken</h4>
+        <ul class="evidence-list">
+          <li>Shared folder created on DC-01</li>
+          <li>GPO drive map configured with network path</li>
+          <li>F: drive appearing in File Explorer on CLIENT-01</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 7 -->
+  <div class="scenario">
+    <div class="scenario-header">
+      <div class="sc-num">SCENARIO 07</div>
+      <div class="sc-title">Bulk User Creation — New Department Onboarding</div>
+      <div class="sc-level level-med">Intermediate</div>
+    </div>
+    <div class="scenario-body">
+      <div class="ticket">
+        <div class="ticket-id">🎫 TICKET #1007</div>
+        <div class="ticket-title">10 new call centre staff starting Monday</div>
+        <div class="ticket-body">"We have 10 new call centre agents all starting Monday. HR sent a spreadsheet. Need all accounts created by Friday." — Operations Manager</div>
+      </div>
+      <div class="tags"><span class="tag skill">Import-CSV</span><span class="tag skill">ForEach-Object</span><span class="tag tool">PowerShell Automation</span></div>
+      <div class="steps" style="margin-top: 14px;">
+        <div class="step-row"><div class="step-n">1</div><div class="step-c"><h4>Created CSV file from HR spreadsheet</h4><div class="code">FirstName,LastName,Department,Title<br>James,Wilson,CallCentre,Agent<br>Emma,Brown,CallCentre,Agent<br>Liam,Taylor,CallCentre,Agent</div></div></div>
+        <div class="step-row"><div class="step-n">2</div><div class="step-c"><h4>Ran bulk creation script</h4><div class="code"><span class="cb">Import-Csv</span> <span class="cg">"C:\users.csv"</span> | <span class="cb">ForEach-Object</span> {<br>&nbsp;&nbsp;<span class="cp">$username</span> = (<span class="cp">$_</span>.FirstName[0] + <span class="cp">$_</span>.LastName).ToLower()<br>&nbsp;&nbsp;<span class="cb">New-ADUser</span> -Name <span class="cg">"$($_.FirstName) $($_.LastName)"</span> -SamAccountName <span class="cp">$username</span> `<br>&nbsp;&nbsp;&nbsp;&nbsp;-Enabled <span class="cp">$true</span> -ChangePasswordAtLogon <span class="cp">$true</span><br>&nbsp;&nbsp;<span class="cb">Write-Host</span> <span class="cg">"Created: $username"</span><br>}</div></div></div>
+        <div class="step-row"><div class="step-n">3</div><div class="step-c"><h4>Verified all users created</h4><div class="code"><span class="cb">Get-ADUser</span> -Filter * -SearchBase <span class="cg">"OU=CallCentre,OU=_COMPANY,DC=lab,DC=local"</span> | <span class="cb">Select-Object</span> Name</div></div></div>
+      </div>
+      <div class="box real">💼 Real World: PowerShell automation is a highly valued skill. Creating 10 accounts manually takes 30+ minutes. This script does it in seconds.</div>
+      <div class="evidence">
+        <h4>📸 Portfolio Evidence — Screenshots Taken</h4>
+        <ul class="evidence-list">
+          <li>CSV file contents</li>
+          <li>Script running showing "Created: username" for each</li>
+          <li>All users visible in ADUC</li>
+          <li>PowerShell script saved as .ps1 file</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 8 -->
+  <div class="scenario">
+    <div class="scenario-header">
+      <div class="sc-num">SCENARIO 08</div>
+      <div class="sc-title">Temporary Access to Another Department's Files</div>
+      <div class="sc-level level-med">Intermediate</div>
+    </div>
+    <div class="scenario-body">
+      <div class="ticket">
+        <div class="ticket-id">🎫 TICKET #1008</div>
+        <div class="ticket-title">Need read-only access to HR shared drive temporarily</div>
+        <div class="ticket-body">"I'm covering HR duties for a month while HR Manager is on leave. Need read-only access to HR drive. Director approved." — Finance Manager</div>
+      </div>
+      <div class="tags"><span class="tag skill">New-ADGroup</span><span class="tag skill">NTFS Permissions</span><span class="tag skill">Least Privilege</span></div>
+      <div class="steps" style="margin-top: 14px;">
+        <div class="step-row"><div class="step-n">1</div><div class="step-c"><h4>Verified Director approval first</h4><p>Confirmed written approval in ticket before granting any access — security best practice.</p></div></div>
+        <div class="step-row"><div class="step-n">2</div><div class="step-c"><h4>Created read-only group</h4><div class="code"><span class="cb">New-ADGroup</span> -Name <span class="cg">"GRP-HR-ReadOnly"</span> -GroupScope Global -Path <span class="cg">"OU=HR,OU=_COMPANY,DC=lab,DC=local"</span><br><span class="cb">Add-ADGroupMember</span> -Identity <span class="cg">"GRP-HR-ReadOnly"</span> -Members <span class="cg">"carol.fin"</span></div></div></div>
+        <div class="step-row"><div class="step-n">3</div><div class="step-c"><h4>Set NTFS read permission</h4><p>Applied Read-only permission on HR share for GRP-HR-ReadOnly group.</p></div></div>
+        <div class="step-row"><div class="step-n">4</div><div class="step-c"><h4>Set expiry reminder</h4><p>Documented access expiry date in ticket — remove access after 1 month.</p></div></div>
+      </div>
+      <div class="box real">💼 Real World: Principle of Least Privilege — always give minimum access needed. Read-only not full access. Document expiry date for temporary access.</div>
+      <div class="evidence">
+        <h4>📸 Portfolio Evidence — Screenshots Taken</h4>
+        <ul class="evidence-list">
+          <li>New read-only group created</li>
+          <li>User added to group</li>
+          <li>NTFS permissions set</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 9 -->
+  <div class="scenario">
+    <div class="scenario-header">
+      <div class="sc-num">SCENARIO 09</div>
+      <div class="sc-title">Deploy Software via Group Policy (7-Zip)</div>
+      <div class="sc-level level-hard">Advanced</div>
+    </div>
+    <div class="scenario-body">
+      <div class="ticket">
+        <div class="ticket-id">🎫 TICKET #1009</div>
+        <div class="ticket-title">Deploy 7-Zip to all workstations silently</div>
+        <div class="ticket-body">"Need 7-Zip installed on all company workstations. We have 50 PCs — can this be pushed automatically without visiting each desk?" — IT Manager</div>
+      </div>
+      <div class="tags"><span class="tag skill">GPO Software Deploy</span><span class="tag skill">MSI Package</span><span class="tag skill">New-SmbShare</span><span class="tag tool">GPMC</span></div>
+      <div class="steps" style="margin-top: 14px;">
+        <div class="step-row"><div class="step-n">1</div><div class="step-c"><h4>Created Software network share on DC-01</h4><div class="code"><span class="cb">New-Item</span> -Path <span class="cg">"C:\Shares\Software"</span> -ItemType Directory -Force<br><span class="cb">New-SmbShare</span> -Name <span class="cg">"Software"</span> -Path <span class="cg">"C:\Shares\Software"</span> -ReadAccess <span class="cg">"Domain Computers"</span></div></div></div>
+        <div class="step-row"><div class="step-n">2</div><div class="step-c"><h4>Downloaded 7-Zip MSI and placed in share</h4><p>Downloaded 7-Zip x64 .msi from 7-zip.org → copied to C:\Shares\Software\</p></div></div>
+        <div class="step-row"><div class="step-n">3</div><div class="step-c"><h4>Created DEPLOY-7Zip GPO</h4><p>GPMC → new GPO → Computer Configuration → Software Settings → Software Installation → New Package → \\DC-01\Software\7zip.msi → Assigned</p></div></div>
+        <div class="step-row"><div class="step-n">4</div><div class="step-c"><h4>Linked to Workstations OU</h4><p>Right clicked Workstations OU → Link GPO → DEPLOY-7Zip</p></div></div>
+        <div class="step-row"><div class="step-n">5</div><div class="step-c"><h4>Restarted CLIENT-01 — verified installation</h4><p>7-Zip installed silently during startup. Verified in Start Menu and Programs list.</p></div></div>
+      </div>
+      <div class="box real">💼 Real World: For large deployments companies use SCCM/Intune. GPO software deployment demonstrates understanding of the fundamentals of software management.</div>
+      <div class="evidence">
+        <h4>📸 Portfolio Evidence — Screenshots Taken</h4>
+        <ul class="evidence-list">
+          <li>Software share created on DC-01</li>
+          <li>7zip.msi visible in share folder</li>
+          <li>GPO software installation configured with network path</li>
+          <li>GPO linked to Workstations OU</li>
+          <li>7-Zip installed on CLIENT-01 after restart</li>
+          <li>gpresult report showing DEPLOY-7Zip applied</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 10 -->
+  <div class="scenario">
+    <div class="scenario-header">
+      <div class="sc-num">SCENARIO 10</div>
+      <div class="sc-title">Security Audit — Find and Disable Inactive Accounts</div>
+      <div class="sc-level level-hard">Advanced</div>
+    </div>
+    <div class="scenario-body">
+      <div class="ticket">
+        <div class="ticket-id">🎫 TICKET #1010 — SECURITY AUDIT</div>
+        <div class="ticket-title">Annual audit — find and disable stale accounts</div>
+        <div class="ticket-body">"Annual security audit requires identifying and disabling all AD accounts unused for 90+ days. Compliance requirement." — Security Manager</div>
+      </div>
+      <div class="tags"><span class="tag skill">Get-ADUser</span><span class="tag skill">Export-Csv</span><span class="tag skill">Disable-ADAccount</span><span class="tag tool">AD Audit</span></div>
+      <div class="steps" style="margin-top: 14px;">
+        <div class="step-row"><div class="step-n">1</div><div class="step-c"><h4>Found inactive accounts (never logged in)</h4><div class="code"><span class="cb">Get-ADUser</span> -Filter * -Properties LastLogonDate, Department |<br>&nbsp;&nbsp;<span class="cb">Where-Object</span> {<span class="cp">$_</span>.LastLogonDate -eq <span class="cp">$null</span> -and <span class="cp">$_</span>.Enabled -eq <span class="cp">$true</span>} |<br>&nbsp;&nbsp;<span class="cb">Select-Object</span> Name, SamAccountName, LastLogonDate, Department</div></div></div>
+        <div class="step-row"><div class="step-n">2</div><div class="step-c"><h4>Exported audit report to CSV</h4><div class="code"><span class="cb">Export-Csv</span> <span class="cg">"C:\InactiveUsers_$(Get-Date -f 'yyyy-MM-dd').csv"</span> -NoTypeInformation</div></div></div>
+        <div class="step-row"><div class="step-n">3</div><div class="step-c"><h4>Disabled all inactive accounts</h4><div class="code"><span class="cb">Disable-ADAccount</span> -Identity <span class="cp">$_</span><br><span class="cb">Set-ADUser</span> -Identity <span class="cp">$_</span> -Description <span class="cg">"Disabled — Inactive 90 days — $(Get-Date -f 'yyyy-MM-dd')"</span></div></div></div>
+      </div>
+      <div class="box real">💼 Real World: Ghost accounts (ex-staff still active) are a major security risk. Companies with compliance requirements run these audits quarterly.</div>
+      <div class="evidence">
+        <h4>📸 Portfolio Evidence — Screenshots Taken</h4>
+        <ul class="evidence-list">
+          <li>Inactive accounts found in PowerShell results</li>
+          <li>CSV report generated and opened in Excel</li>
+          <li>Accounts disabled with description audit trail</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 11 -->
+  <div class="scenario">
+    <div class="scenario-header">
+      <div class="sc-num">SCENARIO 11</div>
+      <div class="sc-title">Fine-Grained Password Policy for IT Admins</div>
+      <div class="sc-level level-hard">Advanced</div>
+    </div>
+    <div class="scenario-body">
+      <div class="ticket">
+        <div class="ticket-id">🎫 TICKET #1011 — SECURITY</div>
+        <div class="ticket-title">IT Admin accounts need stricter password policy</div>
+        <div class="ticket-body">"Following penetration test, IT Admin accounts need stricter password policy — min 16 chars, change every 30 days, lock after 3 attempts." — CTO</div>
+      </div>
+      <div class="tags"><span class="tag skill">Fine-Grained Policy</span><span class="tag skill">PSO</span><span class="tag tool">ADAC</span></div>
+      <div class="steps" style="margin-top: 14px;">
+        <div class="step-row"><div class="step-n">1</div><div class="step-c"><h4>Opened ADAC and navigated to Password Settings Container</h4><p>ADAC → lab (local) → System → Password Settings Container</p></div></div>
+        <div class="step-row"><div class="step-n">2</div><div class="step-c"><h4>Created PSO-ITAdmins policy</h4><div class="code"><span class="cb">New-ADFineGrainedPasswordPolicy</span> -Name <span class="cg">"PSO-ITAdmins"</span> -Precedence <span class="co">10</span> `<br>&nbsp;&nbsp;-MinPasswordLength <span class="co">16</span> -MaxPasswordAge <span class="cg">"30.00:00:00"</span> `<br>&nbsp;&nbsp;-LockoutThreshold <span class="co">3</span> -LockoutDuration <span class="cg">"00:30:00"</span> `<br>&nbsp;&nbsp;-PasswordHistoryCount <span class="co">10</span> -ComplexityEnabled <span class="cp">$true</span></div></div></div>
+        <div class="step-row"><div class="step-n">3</div><div class="step-c"><h4>Applied to GRP-IT-Admins</h4><div class="code"><span class="cb">Add-ADFineGrainedPasswordPolicySubject</span> -Identity <span class="cg">"PSO-ITAdmins"</span> -Subjects <span class="cg">"GRP-IT"</span></div></div></div>
+        <div class="step-row"><div class="step-n">4</div><div class="step-c"><h4>Verified policy applying to IT admin</h4><div class="code"><span class="cb">Get-ADUserResultantPasswordPolicy</span> -Identity <span class="cg">"bob.it"</span></div></div></div>
+      </div>
+      <div class="box real">💼 Real World: Privileged account management — admin accounts are high value targets and need stronger protection than regular user accounts.</div>
+      <div class="evidence">
+        <h4>📸 Portfolio Evidence — Screenshots Taken</h4>
+        <ul class="evidence-list">
+          <li>PSO created in Password Settings Container (ADAC)</li>
+          <li>Policy applied to GRP-IT-Admins</li>
+          <li>Resultant policy showing on bob.it account</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 12 -->
+  <div class="scenario">
+    <div class="scenario-header">
+      <div class="sc-num">SCENARIO 12</div>
+      <div class="sc-title">Troubleshoot — Access Denied After Internal Transfer</div>
+      <div class="sc-level level-hard">Advanced</div>
+    </div>
+    <div class="scenario-body">
+      <div class="ticket">
+        <div class="ticket-id">🎫 TICKET #1012</div>
+        <div class="ticket-title">Can log in but getting Access Denied on Finance drive</div>
+        <div class="ticket-body">"I transferred from HR to Finance last week. Can log in fine but Finance drive shows Access Denied. Still see HR drive which I shouldn't have anymore." — Alice</div>
+      </div>
+      <div class="tags"><span class="tag skill">Troubleshooting</span><span class="tag skill">Group Membership</span><span class="tag skill">Move-ADObject</span></div>
+      <div class="steps" style="margin-top: 14px;">
+        <div class="step-row"><div class="step-n">1</div><div class="step-c"><h4>Diagnosed — checked group memberships</h4><div class="code"><span class="cb">Get-ADPrincipalGroupMembership</span> -Identity <span class="cg">"alice.hr"</span> | <span class="cb">Select-Object</span> Name<br><span class="cm"># Found: still in GRP-HR, NOT in GRP-Finance — root cause identified</span></div></div></div>
+        <div class="step-row"><div class="step-n">2</div><div class="step-c"><h4>Removed from old HR group</h4><div class="code"><span class="cb">Remove-ADGroupMember</span> -Identity <span class="cg">"GRP-HR"</span> -Members <span class="cg">"alice.hr"</span> -Confirm:<span class="cp">$false</span></div></div></div>
+        <div class="step-row"><div class="step-n">3</div><div class="step-c"><h4>Added to Finance group</h4><div class="code"><span class="cb">Add-ADGroupMember</span> -Identity <span class="cg">"GRP-Finance"</span> -Members <span class="cg">"alice.hr"</span></div></div></div>
+        <div class="step-row"><div class="step-n">4</div><div class="step-c"><h4>Moved user to Finance OU</h4><div class="code"><span class="cb">Move-ADObject</span> -Identity <span class="cg">"CN=Alice HR,OU=HR,OU=_COMPANY,DC=lab,DC=local"</span> `<br>&nbsp;&nbsp;-TargetPath <span class="cg">"OU=Finance,OU=_COMPANY,DC=lab,DC=local"</span></div></div></div>
+        <div class="step-row"><div class="step-n">5</div><div class="step-c"><h4>Verified with whoami after re-login</h4><div class="code">whoami /groups <span class="cm"># confirmed GRP-Finance present, GRP-HR removed</span></div></div></div>
+      </div>
+      <div class="box real">💼 Real World: Internal transfers are a common source of permissions issues. Check group memberships first when someone gets Access Denied — 80% of the time that's the cause.</div>
+      <div class="evidence">
+        <h4>📸 Portfolio Evidence — Screenshots Taken</h4>
+        <ul class="evidence-list">
+          <li>Wrong group memberships showing (diagnosis)</li>
+          <li>Correct groups after fix</li>
+          <li>whoami /groups confirming Finance access</li>
+          <li>Root cause analysis written up</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ===== GITHUB README ===== -->
+  <div class="section-header">
+    <h2>📄 GitHub README.md — Copy This to Your Repository</h2>
+    <p>Paste this into your GitHub repository README file</p>
+  </div>
+
+  <div class="readme">
+<span class="rh1"># Active Directory Home Lab Portfolio</span><br>
+<br>
+<span class="rh2">## Overview</span><br>
+Built a complete Active Directory environment from scratch using VirtualBox,<br>
+demonstrating real-world IT support skills across 12 helpdesk scenarios.<br>
+<br>
+<span class="rh2">## Lab Environment</span><br>
+<span class="rg">| Component | Details |</span><br>
+<span class="rg">|-----------|---------|</span><br>
+<span class="rg">| Domain | lab.local |</span><br>
+<span class="rg">| DC-01 | Windows Server 2025 — 192.168.10.10 |</span><br>
+<span class="rg">| CLIENT-01 | Windows 11 Pro — 192.168.10.20 |</span><br>
+<span class="rg">| Hypervisor | VirtualBox 7.x |</span><br>
+<span class="rg">| Network | Internal Network (adlab) + NAT |</span><br>
+<br>
+<span class="rh2">## Skills Demonstrated</span><br>
+<span class="rb">- Active Directory administration (users, groups, OUs)</span><br>
+<span class="rb">- Group Policy management (GPO creation, linking, testing)</span><br>
+<span class="rb">- PowerShell automation (bulk user creation, auditing)</span><br>
+<span class="rb">- User lifecycle management (onboarding, offboarding, transfers)</span><br>
+<span class="rb">- Security policy implementation (PSO, password policies)</span><br>
+<span class="rb">- Software deployment via GPO</span><br>
+<span class="rb">- AD security auditing</span><br>
+<span class="rb">- DNS configuration and troubleshooting</span><br>
+<br>
+<span class="rh2">## Scenarios Completed</span><br>
+<span class="rm">| # | Scenario | Level |</span><br>
+<span class="rm">|---|----------|-------|</span><br>
+01 | New Employee Onboarding | Beginner<br>
+02 | Account Lockout Resolution | Beginner<br>
+03 | Password Reset | Beginner<br>
+04 | Employee Offboarding | Beginner<br>
+05 | Screen Lock GPO | Intermediate<br>
+06 | Network Drive Mapping via GPO | Intermediate<br>
+07 | Bulk User Creation from CSV | Intermediate<br>
+08 | Temporary Cross-Department Access | Intermediate<br>
+09 | Software Deployment via GPO | Advanced<br>
+10 | Security Audit — Inactive Accounts | Advanced<br>
+11 | Fine-Grained Password Policy | Advanced<br>
+12 | Access Denied Troubleshooting | Advanced<br>
+<br>
+<span class="rh2">## Technologies Used</span><br>
+Windows Server 2025 | Windows 11 Pro | Active Directory DS<br>
+PowerShell | Group Policy | DNS | SMB File Sharing<br>
+VirtualBox | ADUC | GPMC | ADAC
+  </div>
+
+  <hr class="divider">
+
+  <!-- ===== RESUME SECTION ===== -->
+  <div class="section-header">
+    <h2>📋 Resume Section — Add This to Your CV</h2>
+    <p>Copy this wording directly into your resume under Projects or Experience</p>
+  </div>
+
+  <div class="resume-box">
+    <h3>Projects & Home Lab</h3>
+    <p style="font-size: 14px; font-weight: 700; margin-bottom: 4px;">Active Directory Home Lab Project <span style="font-weight: 400; color: var(--muted);">— 2025/2026</span></p>
+    <p style="font-size: 12px; color: var(--accent); margin-bottom: 12px; font-family: 'Source Code Pro', monospace;">github.com/[your-username]/AD-Home-Lab-Portfolio</p>
+    <ul style="list-style: none; font-size: 13px; line-height: 2;">
+      <li>→ Built Windows Server 2025 Active Directory environment from scratch using VirtualBox, simulating a real enterprise network with Domain Controller and Windows 11 workstation</li>
+      <li>→ Configured Active Directory Domain Services, DNS, Group Policy, and SMB file sharing across a two-VM internal network</li>
+      <li>→ Completed 12 real-world IT helpdesk scenarios including user onboarding/offboarding, account lockout resolution, GPO deployment, and access troubleshooting</li>
+      <li>→ Automated bulk user creation using PowerShell and CSV import — created 10 user accounts in under 10 seconds</li>
+      <li>→ Deployed software (7-Zip) silently to workstations via Group Policy — demonstrating enterprise software management fundamentals</li>
+      <li>→ Implemented fine-grained password policies for privileged accounts and conducted AD security audits for inactive accounts</li>
+    </ul>
+    <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border);">
+      <p style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 6px;">Technologies</p>
+      <p style="font-size: 12px;">Active Directory • Windows Server 2025 • Windows 11 • PowerShell • Group Policy • DNS • SMB • VirtualBox • ADUC • GPMC • ADAC</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ===== INTERVIEW PREP ===== -->
+  <div class="section-header">
+    <h2>🎤 Interview Talking Points</h2>
+    <p>How to talk about your lab experience in IT support interviews</p>
+  </div>
+
+  <table class="tbl">
+    <tr><th>Interviewer Question</th><th>Your Answer Based on This Lab</th></tr>
+    <tr><td>Tell me about your AD experience</td><td>Built complete AD lab with DC, GPOs, users, groups. Completed 12 real-world helpdesk scenarios covering the full user lifecycle.</td></tr>
+    <tr><td>How do you handle account lockouts?</td><td>Use Unlock-ADAccount in PowerShell, check BadLogonCount, then investigate root cause — usually an old saved password on phone or VPN.</td></tr>
+    <tr><td>What is a GPO and how have you used one?</td><td>Group Policy Objects apply rules to users/computers automatically. Deployed screen lock policy, drive mappings, and 7-Zip software via GPO in my lab.</td></tr>
+    <tr><td>Have you used PowerShell?</td><td>Yes — bulk user creation from CSV, AD audits for inactive accounts, automated offboarding, GPO management all done in PowerShell.</td></tr>
+    <tr><td>How do you approach access denied issues?</td><td>Check group memberships first — 80% of the time that's the cause. Experienced this in my lab when troubleshooting an internal department transfer.</td></tr>
+    <tr><td>What AD security experience do you have?</td><td>Implemented fine-grained password policies for admin accounts, ran inactive account audits, managed offboarding access removal, applied principle of least privilege.</td></tr>
+  </table>
+
+</div>
+
+</body>
+</html>
